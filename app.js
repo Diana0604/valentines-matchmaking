@@ -22,7 +22,7 @@ function startApp(){
             {
                 title: "Question 1",
                 question: "What do you think about this test?",
-                questionType: "input"
+                questionType: "text"
             }
         ];
         if(questionNumber < questions.length){
