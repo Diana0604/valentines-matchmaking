@@ -17,18 +17,22 @@ function startApp(){
         res.render("finish");
     });
     app.get("/test/:question", function(req, res){
-        var questionNumber = Number(req.params.question) - 1;
-        questions = [
-            {
-                title: "Question 1",
-                question: "What do you think about this test?",
-                questionType: "text"
-            }
-        ];
-        if(questionNumber < questions.length){
-            res.render("test", {question:questions[questionNumber]});
+        if(isNaN(req.params.question)){
+            res.send("this page is not valid");
         } else{
-            res.redirect("/test/finish");
+            var questionNumber = Number(req.params.question) - 1;
+            questions = [
+                {
+                    title: "Question 1",
+                    question: "What do you think about this test?",
+                    questionType: "text"
+                }
+            ];
+            if(questionNumber < questions.length){
+                res.render("test", {question:questions[questionNumber]});
+            } else{
+                res.redirect("/test/finish");
+            }
         }
     });
     app.post("/:answer", function(req, res){
