@@ -56,13 +56,47 @@ Question.create(
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
+//INDEX:
 app.get("/", function(req, res){
     res.render("index");
 });
 app.get("/test", function(req, res){
     res.render("index");
 });
+//MANAGE QUESTIONS
+app.get("/manage/newquestion", function(req, res){
+    res.render("newquestion");
+});
+app.post("/addquestion", function(req, res){
+    console.log("new question");
+    var title = req.body.title;
+    var question = req.body.question;
+    var questionType = req.body.type;
+    console.log("title: " + title);
+    console.log("question: " + question);
+    console.log("question type: " + questionType);
+    Question.find({}, function(err, questions){
+        if(err){
+            console.log("ERROR! " + err);
+        } else{
+            var number = questions.length + 1;
+            Question.create({
+                title: title,
+                question: question,
+                questionType: questionType,
+                number: Number(number)
+            }, function(err, question){
+                if(err){
+                    console.log("ERROR: " + err);
+                } else{
+                    console.log("new question added: " + question);
+                }
+            });
+        }
+    });
+    res.redirect("/manage/newquestion");
+});
+//ANSWER QUESTIONS
 app.get("/test/finish", function(req, res){
     res.render("finish");
 });
@@ -92,10 +126,11 @@ app.post("/:answer", function(req, res){
     console.log("nest question: " + nextQ);
     res.redirect("test/" + nextQ);
 });
+//GENERIC
 app.get("*", function(req, res){
     res.send('this page does not exists');
 });
-
+//PORT
 app.listen(3000, function(){
     console.log('server started');
     
