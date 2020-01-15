@@ -64,10 +64,10 @@ app.get("/questions", function(req, res){
     });
 });
 
-app.get("/manage/newquestion", function(req, res){
+app.get("/questions/type", function(req, res){
     res.render("newquestion");
 });
-app.post("/addquestion", function(req, res){
+app.post("/questions", function(req, res){
     console.log("new question");
     var title = req.body.title;
     var question = req.body.question;
@@ -94,13 +94,14 @@ app.post("/addquestion", function(req, res){
             });
         }
     });
-    res.redirect("/manage/newquestion");
+    newQuestionType = "";
+    res.redirect("/questions/type");
 });
-app.post("/createquestion", function(req, res){
+app.post("/settype", function(req, res){
     var type = req.body.type;
-    res.redirect("/manage/addquestion/" + type);
+    res.redirect("/questions/" + type + "/new");
 });
-app.get("/manage/addquestion/:type", function(req, res) {
+app.get("/questions/:type/new", function(req, res) {
     var type = req.params.type;
     if(VALIDTYPE.has(type)){
         newQuestionType = req.params.type;
