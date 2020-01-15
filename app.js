@@ -24,17 +24,17 @@ var Question = mongoose.model("Question", questiomSchema);
 //var childSchema = new Schema({ name: String }, { _id: false });
 //var parentSchema = new Schema({ children: [childSchema] });
 var answerSchema = new mongoose.Schema({
-    answers: [{
-        number: Number,
-        answer: String
-    }, 
-    {   
-        _id: false
-    }]
+    number: Number,
+    answer: String},
+    {_id: false});
+var answersListSchema = new mongoose.Schema({
+    answers: [answerSchema]
 });
-var Answer = mongoose.model("Answer", answerSchema);
 
-var auxAnswer = [];
+var Answer = mongoose.model("Answer", answerSchema);
+var AnswersList = mongoose.model("AnswersList", answersListSchema);
+
+var answersListAux = [];
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -42,11 +42,11 @@ app.set("view engine", "ejs");
 //INDEX:
 app.get("/", function(req, res){
     res.render("index");
-    auxAnswer = [];
+    answersListAux = [];
 });
 app.get("/test", function(req, res){
     res.render("index");
-    auxAnswer = [];
+    answersListAux = [];
 });
 //MANAGE QUESTIONS:
 app.get("/manage/newquestion", function(req, res){
@@ -83,8 +83,8 @@ app.post("/addquestion", function(req, res){
 });
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
-    Answer.create({
-        answers: auxAnswer
+    AnswersList.create({
+        answers: answersListAux
     }, function(err, answer){
         if(err){
             console.log("ERROR: " + err);
@@ -114,11 +114,11 @@ app.get("/test/:question", function(req, res){
     }
 });
 app.post("/:answer", function(req, res){
-    var newAnswer = {
+    var newAnswer = new Answer ({
         number: req.params.answer,
         answer: req.body.answer
-    }
-    auxAnswer.push(newAnswer);
+    });
+    answersListAux.push(newAnswer);
     var nextQ = Number(req.params.answer) + 1;
     res.redirect("test/" + nextQ);
 });
