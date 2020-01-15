@@ -45,14 +45,20 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 //INDEX:
-app.get("/", function(req, res){
-    res.render("index");
-    answersListAux = [];
+app.get("/questions", function(req, res){
+    Question.find({}, function(err, questions){
+        if(err){
+            console.log('could not load questions!');
+        } else{
+            res.render("questions", {questions:questions});
+        }
+    });
 });
-app.get("/test", function(req, res){
-    res.render("index");
-    answersListAux = [];
+
+app.get("/questions/new", function(req, res){
+    res.render("newquestion");
 });
+/*
 //MANAGE QUESTIONS:
 //create new question
 app.get("/questions/new", function(req, res){
@@ -101,16 +107,7 @@ app.post("/questions", function(req, res){
     newQuestionType = "";
     res.redirect("/questions/new");
 });
-//show info on questions
-app.get("/questions", function(req, res){
-    Question.find({}, function(err, questions){
-        if(err){
-            console.log('could not load questions!');
-        } else{
-            res.render("questions", {questions:questions});
-        }
-    });
-});
+
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
     AnswersList.create({
@@ -156,8 +153,9 @@ app.post("/:answer", function(req, res){
 app.get("*", function(req, res){
     res.send('this page does not exists');
 });
+*/
+
 //PORT:
 app.listen(3000, function(){
     console.log('server started');
-    
 });

@@ -1,0 +1,12 @@
+.navbar-love{
+    background: red;
+    color: white;
+}
+
+.text{
+    color: white;
+}
+
+.text:hover{
+    color: #e6efff;
+}
