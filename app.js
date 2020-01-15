@@ -10,6 +10,10 @@ mongoose.connect("mongodb://localhost/valentine", {
     useNewUrlParser: true,
 });
 
+//constants
+var VALIDTYPE = new Set();
+VALIDTYPE.add("text");
+
 //SCHEMA SETUP:
 //questions
 var questiomSchema = new mongoose.Schema({
@@ -19,6 +23,7 @@ var questiomSchema = new mongoose.Schema({
     number: Number
 });
 var Question = mongoose.model("Question", questiomSchema);
+var newQuestionType = "";
 //answers
 
 //var childSchema = new Schema({ name: String }, { _id: false });
@@ -56,7 +61,7 @@ app.post("/addquestion", function(req, res){
     console.log("new question");
     var title = req.body.title;
     var question = req.body.question;
-    var questionType = req.body.type;
+    var questionType = newQuestionType;
     console.log("title: " + title);
     console.log("question: " + question);
     console.log("question type: " + questionType);
@@ -80,6 +85,19 @@ app.post("/addquestion", function(req, res){
         }
     });
     res.redirect("/manage/newquestion");
+});
+app.post("/createquestion", function(req, res){
+    var type = req.body.type;
+    res.redirect("/manage/addquestion/" + type);
+});
+app.get("/manage/addquestion/:type", function(req, res) {
+    var type = req.params.type;
+    if(VALIDTYPE.has(type)){
+        newQuestionType = req.params.type;
+        res.render(req.params.type);
+    } else{
+        res.send("not a valid question type");
+    }
 });
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
