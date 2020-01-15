@@ -5,13 +5,10 @@ var express = require("express"),
 
 app.use(express.static("public"));
 
-
-
 mongoose.connect("mongodb://localhost/valentine", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
-
 
 //schema setup
 var questiomSchema = new mongoose.Schema({
@@ -21,41 +18,10 @@ var questiomSchema = new mongoose.Schema({
     number: Number
 });
 var Question = mongoose.model("Question", questiomSchema);
-/*
-Question.create(
-    {
-        title: "Question 1",
-        question: "What do you think about this test?",
-        questionType: "text",
-        number: 1
-    }, function(err, question){
-        if(err){
-            console.log("Error: " + err);
-        } else {
-            console.log("neq question added: ");
-            console.log(question);
-        }
-    }
-);
-
-Question.create(
-    {
-        title: "Question 2",
-        question: "Are you ready to find true love?",
-        questionType: "text",
-        number: 2
-    }, function(err, question){
-        if(err){
-            console.log("Error: " + err);
-        } else {
-            console.log("neq question added: ");
-            console.log(question);
-        }
-    }
-);*/
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+
 //INDEX:
 app.get("/", function(req, res){
     res.render("index");
@@ -63,7 +29,7 @@ app.get("/", function(req, res){
 app.get("/test", function(req, res){
     res.render("index");
 });
-//MANAGE QUESTIONS
+//MANAGE QUESTIONS:
 app.get("/manage/newquestion", function(req, res){
     res.render("newquestion");
 });
@@ -96,7 +62,7 @@ app.post("/addquestion", function(req, res){
     });
     res.redirect("/manage/newquestion");
 });
-//ANSWER QUESTIONS
+//ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
     res.render("finish");
 });
@@ -126,11 +92,11 @@ app.post("/:answer", function(req, res){
     console.log("nest question: " + nextQ);
     res.redirect("test/" + nextQ);
 });
-//GENERIC
+//GENERIC:
 app.get("*", function(req, res){
     res.send('this page does not exists');
 });
-//PORT
+//PORT:
 app.listen(3000, function(){
     console.log('server started');
     
