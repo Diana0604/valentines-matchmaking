@@ -54,18 +54,22 @@ app.get("/test", function(req, res){
     answersListAux = [];
 });
 //MANAGE QUESTIONS:
-app.get("/questions", function(req, res){
-    Question.find({}, function(err, questions){
-        if(err){
-            console.log('could not load questions!');
-        } else{
-            res.send(questions);
-        }
-    });
-});
-
-app.get("/questions/type", function(req, res){
+//create new question
+app.get("/questions/new", function(req, res){
     res.render("newquestion");
+});
+app.post("/settype", function(req, res){
+    var type = req.body.type;
+    res.redirect("/questions/new/" + type);
+});
+app.get("/questions/new/:type", function(req, res) {
+    var type = req.params.type;
+    if(VALIDTYPE.has(type)){
+        newQuestionType = req.params.type;
+        res.render(req.params.type);
+    } else{
+        res.send("not a valid question type");
+    }
 });
 app.post("/questions", function(req, res){
     console.log("new question");
@@ -95,20 +99,17 @@ app.post("/questions", function(req, res){
         }
     });
     newQuestionType = "";
-    res.redirect("/questions/type");
+    res.redirect("/questions/new");
 });
-app.post("/settype", function(req, res){
-    var type = req.body.type;
-    res.redirect("/questions/" + type + "/new");
-});
-app.get("/questions/:type/new", function(req, res) {
-    var type = req.params.type;
-    if(VALIDTYPE.has(type)){
-        newQuestionType = req.params.type;
-        res.render(req.params.type);
-    } else{
-        res.send("not a valid question type");
-    }
+//show info on questions
+app.get("/questions", function(req, res){
+    Question.find({}, function(err, questions){
+        if(err){
+            console.log('could not load questions!');
+        } else{
+            res.render("questions", {questions:questions});
+        }
+    });
 });
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){

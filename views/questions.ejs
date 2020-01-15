@@ -1,0 +1,10 @@
+<%- include("partials/header") -%>
+
+<% questions.forEach(function(question){ %>
+    <div>
+        <h5>Title: <%= question.title %></h5>
+        <h5>Question: <%= question.question %></h5>
+    </div>
+<% })%>
+
+<%- include("partials/footer") -%>
