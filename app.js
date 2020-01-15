@@ -54,6 +54,16 @@ app.get("/test", function(req, res){
     answersListAux = [];
 });
 //MANAGE QUESTIONS:
+app.get("/questions", function(req, res){
+    Question.find({}, function(err, questions){
+        if(err){
+            console.log('could not load questions!');
+        } else{
+            res.send(questions);
+        }
+    });
+});
+
 app.get("/manage/newquestion", function(req, res){
     res.render("newquestion");
 });
