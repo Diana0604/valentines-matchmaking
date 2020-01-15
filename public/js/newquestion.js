@@ -2,7 +2,7 @@ var nextMult = null;
 
 function initialize(){
     //general
-    $("form").hide();
+    $("div").hide();
 
     //multiple choice
     nextMult = 3;
@@ -16,6 +16,7 @@ $("#choosetype").click(function(){
     initialize();
     var type = $("#type").val();
     $("#"+type).show();
+    $("#general").show();
 });
 
 //multiple choice specifics

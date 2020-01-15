@@ -15,7 +15,6 @@ var VALIDTYPE = new Set();
 VALIDTYPE.add("text");
 
 //SCHEMA SETUP:
-//questions
 var questiomSchema = new mongoose.Schema({
     title: String, 
     question: String,
@@ -57,6 +56,11 @@ app.get("/questions", function(req, res){
 
 app.get("/questions/new", function(req, res){
     res.render("newquestion");
+});
+
+app.post("/questions", function(req, res){
+    console.log(req.body);
+    res.redirect("/questions");
 });
 /*
 //MANAGE QUESTIONS:
