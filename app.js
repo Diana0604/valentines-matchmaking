@@ -10,7 +10,8 @@ mongoose.connect("mongodb://localhost/valentine", {
     useNewUrlParser: true,
 });
 
-//schema setup
+//SCHEMA SETUP:
+//questions
 var questiomSchema = new mongoose.Schema({
     title: String, 
     question: String,
@@ -18,6 +19,22 @@ var questiomSchema = new mongoose.Schema({
     number: Number
 });
 var Question = mongoose.model("Question", questiomSchema);
+//answers
+
+//var childSchema = new Schema({ name: String }, { _id: false });
+//var parentSchema = new Schema({ children: [childSchema] });
+var answerSchema = new mongoose.Schema({
+    answers: [{
+        number: Number,
+        answer: String
+    }, 
+    {   
+        _id: false
+    }]
+});
+var Answer = mongoose.model("Answer", answerSchema);
+
+var auxAnswer = [];
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -25,9 +42,11 @@ app.set("view engine", "ejs");
 //INDEX:
 app.get("/", function(req, res){
     res.render("index");
+    auxAnswer = [];
 });
 app.get("/test", function(req, res){
     res.render("index");
+    auxAnswer = [];
 });
 //MANAGE QUESTIONS:
 app.get("/manage/newquestion", function(req, res){
@@ -64,6 +83,15 @@ app.post("/addquestion", function(req, res){
 });
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
+    Answer.create({
+        answers: auxAnswer
+    }, function(err, answer){
+        if(err){
+            console.log("ERROR: " + err);
+        } else{
+            console.log("new answer added: " + answer);
+        }
+    });
     res.render("finish");
 });
 app.get("/test/:question", function(req, res){
@@ -86,10 +114,12 @@ app.get("/test/:question", function(req, res){
     }
 });
 app.post("/:answer", function(req, res){
-    console.log(req.params.answer);
+    var newAnswer = {
+        number: req.params.answer,
+        answer: req.body.answer
+    }
+    auxAnswer.push(newAnswer);
     var nextQ = Number(req.params.answer) + 1;
-    console.log(req.body.answer);
-    console.log("nest question: " + nextQ);
     res.redirect("test/" + nextQ);
 });
 //GENERIC:
