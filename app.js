@@ -15,18 +15,25 @@ var VALIDTYPE = new Set();
 VALIDTYPE.add("text");
 
 //SCHEMA SETUP:
-var questiomSchema = new mongoose.Schema({
+/*
+var users = mongoose.model('User', loginUserSchema, 'users');
+var registerUser = mongoose.model('Registered', registerUserSchema, 'users');
+*/
+var questionTextSchema = new mongoose.Schema({
     title: String, 
     question: String,
-    questionType: String,
-    number: Number
+    type: String
 });
-var Question = mongoose.model("Question", questiomSchema);
-var newQuestionType = "";
-//answers
+var questionMultiplechoiceSchema = new mongoose.Schema({
+    title: String, 
+    question: String, 
+    type: String, 
+    possibleAnswers: [String]
+});
+var QuestionText = mongoose.model("QuestionText", questionTextSchema, 'questions');
+var QuestionMultipleChoice = mongoose.model("QuestionMultiplechoiceSchema", questionMultiplechoiceSchema, 'questions');
 
-//var childSchema = new Schema({ name: String }, { _id: false });
-//var parentSchema = new Schema({ children: [childSchema] });
+//answers
 var answerSchema = new mongoose.Schema({
     number: Number,
     answer: String},
@@ -45,7 +52,7 @@ app.set("view engine", "ejs");
 
 //INDEX:
 app.get("/questions", function(req, res){
-    Question.find({}, function(err, questions){
+    QuestionText.find({}, function(err, questions){
         if(err){
             console.log('could not load questions!');
         } else{
@@ -58,8 +65,62 @@ app.get("/questions/new", function(req, res){
     res.render("newquestion");
 });
 
+function createMultipleChoice(question){
+    var answers = [];
+    Object.keys(question).forEach(function(key,index) {
+        if(key.includes("answer")){
+            answers.push(question[index]);
+        }
+    });
+    //console.log("answers: " + answers);
+    QuestionMultipleChoice.create({
+        title: question.title,
+        question: question.question,
+        type: "multiplechoice",
+        answers: []
+    }, function(error, question){
+        if(error){
+            console.log("error: " + error);
+        } else{
+            console.log("new question multiple: ");
+            console.log(question);
+        }
+    });
+};
+function createText(question){
+    console.log("creating text!");
+    QuestionText.create({
+        title: question.title, 
+        question: question.question,
+        type: "text"
+    }, function(error, question){
+        if(error){
+            console.log("error: " + error);
+        } else{
+            console.log("new question text: ");
+            console.log(question);
+        }
+    });
+};
+
 app.post("/questions", function(req, res){
-    console.log(req.body);
+    console.log("type received");
+    console.log(req.body.type);
+    
+    switch(req.body.type){
+        case "multiplechoice": {
+            createMultipleChoice(req.body);
+            break;
+        }
+        case "text": {
+            createText(req.body);
+            break;
+        }
+        default: {
+            console.log("something went wrong");
+            break;
+        }
+    }
     res.redirect("/questions");
 });
 /*
