@@ -60,11 +60,11 @@ app.get("/questions", function(req, res){
         }
     });
 });
-
+//NEW:
 app.get("/questions/new", function(req, res){
     res.render("newquestion");
 });
-
+//CREATE:
 function createMultipleChoice(question){
     var answers = [];
     Object.keys(question).forEach(function(key,index) {
@@ -102,7 +102,6 @@ function createText(question){
         }
     });
 };
-
 app.post("/questions", function(req, res){
     console.log("type received");
     console.log(req.body.type);
@@ -123,6 +122,20 @@ app.post("/questions", function(req, res){
     }
     res.redirect("/questions");
 });
+//SHOW
+//EDIT
+app.get("/questions/:id/edit", function(req, res){
+    QuestionText.find({_id: req.params.id}, function(err, questions){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("editquestion", {question:questions[0]});
+        }
+    });
+    res.send("something went wrong");
+})
+//UPDATE
+//DESTROY
 /*
 //MANAGE QUESTIONS:
 //create new question
