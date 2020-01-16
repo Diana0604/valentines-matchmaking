@@ -19,6 +19,11 @@ VALIDTYPE.add("text");
 var users = mongoose.model('User', loginUserSchema, 'users');
 var registerUser = mongoose.model('Registered', registerUserSchema, 'users');
 */
+var questionSchema = new mongoose.Schema({
+    title: String, 
+    question: String,
+    type: String
+});
 var questionTextSchema = new mongoose.Schema({
     title: String, 
     question: String,
@@ -30,6 +35,7 @@ var questionMultiplechoiceSchema = new mongoose.Schema({
     type: String, 
     possibleAnswers: [String]
 });
+var Question = mongoose.model("Question", questionSchema, 'questions');
 var QuestionText = mongoose.model("QuestionText", questionTextSchema, 'questions');
 var QuestionMultipleChoice = mongoose.model("QuestionMultiplechoiceSchema", questionMultiplechoiceSchema, 'questions');
 
@@ -126,14 +132,14 @@ app.post("/questions", function(req, res){
 //SHOW
 //EDIT
 app.get("/questions/:id/edit", function(req, res){
-    QuestionText.find({_id: req.params.id}, function(err, questions){
+    Question.find({_id: req.params.id}, function(err, questions){
         if(err){
             console.log(err);
+            res.send("something went wrong");
         } else{
             res.render("editquestion", {question:questions[0]});
         }
     });
-    res.send("something went wrong");
 })
 //UPDATE
 //DESTROY
