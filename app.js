@@ -66,18 +66,19 @@ app.get("/questions/new", function(req, res){
 });
 //CREATE:
 function createMultipleChoice(question){
-    var answers = [];
+    var possibleAnswers = [];
     Object.keys(question).forEach(function(key,index) {
         if(key.includes("answer")){
-            answers.push(question[index]);
+            console.log('answer found!');
+            possibleAnswers.push(question[key]);
         }
     });
-    //console.log("answers: " + answers);
+    console.log("answers: " + possibleAnswers);
     QuestionMultipleChoice.create({
         title: question.title,
         question: question.question,
         type: "multiplechoice",
-        answers: []
+        possibleAnswers: possibleAnswers
     }, function(error, question){
         if(error){
             console.log("error: " + error);
