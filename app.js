@@ -22,7 +22,8 @@ var registerUser = mongoose.model('Registered', registerUserSchema, 'users');
 var questionSchema = new mongoose.Schema({
     title: String, 
     question: String,
-    type: String
+    type: String,
+    possibleAnswers: [String]
 });
 var questionTextSchema = new mongoose.Schema({
     title: String, 
@@ -58,7 +59,7 @@ app.set("view engine", "ejs");
 
 //INDEX:
 app.get("/questions", function(req, res){
-    QuestionText.find({}, function(err, questions){
+    Question.find({}, function(err, questions){
         if(err){
             console.log('could not load questions!');
         } else{
@@ -137,6 +138,10 @@ app.get("/questions/:id/edit", function(req, res){
             console.log(err);
             res.send("something went wrong");
         } else{
+            console.log("editing question: "); 
+            console.log(questions[0]);
+            console.log(questions[0].possibleAnswers);
+            console.log('SENDING TO EDIT');
             res.render("editquestion", {question:questions[0]});
         }
     });

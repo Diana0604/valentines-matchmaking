@@ -2,5 +2,30 @@
 <%- include("partials/navbar") -%>
 
 
-<script src="/js/editquestion.js"></script>
+<form action="/questions/<%=question._id%>" method="PUT">
+    <input type="text" name="title" placeholder="Question title">
+    <input type="text" name="question" placeholder="Question text">
+    <% console.log(Object.keys(question)); %>
+    <% switch(question.type){
+        case "multiplechoice":{
+            question.possibleAnswers.forEach(function(answer, index){ %>
+                <input type="text" name="answer<%=index+1%>" id="answer<%=index+1%>">
+            <% }); %>    
+            <button type="button" class="new">New Answer</button>
+            <button type="button" class="remove">Delete Answer</button>
+            <% break;
+        }
+        case "text": {
+            console.log("we found text");
+            break;
+        }
+        default: {
+            console.log("unknown type: " + question.type);
+            break;
+        }
+    } %>
+    <input type="submit" value="Save Question!">
+</form> 
+
+<script src="/js/multiplechoice.js"></script>
 <%- include("partials/footer") -%>

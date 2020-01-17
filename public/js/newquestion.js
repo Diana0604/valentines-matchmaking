@@ -1,4 +1,4 @@
-var nextMult = null;
+//var nextMult = null;
 
 function initialize(){
     //general
@@ -6,7 +6,7 @@ function initialize(){
 
     //multiple choice
     nextMult = 3;
-    $("#multiplechoice .remove").hide();
+    $(".remove").hide();
 }
 
 initialize();
@@ -19,6 +19,7 @@ $("#choosetype").click(function(){
     $("#general").show();
 });
 
+/*
 //multiple choice specifics
 $("#multiplechoice .new").click(function(){
     console.log('click new detected');
@@ -37,3 +38,4 @@ $("#multiplechoice .remove").click(function(){
         $(this).hide();
     }
 });
+*/

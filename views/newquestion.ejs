@@ -12,11 +12,11 @@
         <input type="text" name="title" placeholder="Question title">
         <input type="text" name="question" placeholder="Question text">
     </div>
-    <div id="text" action="/questions" method="POST">
+    <div id="text">
         <input type="submit" value="Create Question!">
     </div>
 
-    <div id="multiplechoice" action="/questions" method="POST">
+    <div id="multiplechoice">
         <input type="text" name="answer1" id="answer1">
         <input type="text" name="answer2" id="answer2">
         <button type="button" class="new">New Answer</button>
@@ -25,5 +25,6 @@
     </div>
 
 </form>
+<script src="/js/multiplechoice.js"></script>
 <script src="/js/newquestion.js"></script>
 <%- include("partials/footer") -%>
