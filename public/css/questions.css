@@ -1,0 +1,11 @@
+
+.question:nth-child(even) {background: #fcf6f5ff}
+.question:nth-child(odd) {background:#dae9f1}
+
+button.btn{
+    background: #edc2d8ff;
+}
+
+div.question{
+    padding: 10px;
+}

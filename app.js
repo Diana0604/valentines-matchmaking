@@ -116,7 +116,7 @@ app.post("/questions", function(req, res){
     
     switch(req.body.type){
         case "multiplechoice": {
-            createMultipleChoice(req.body);
+            createMultipleChoice(req.body.question);
             break;
         }
         case "text": {
@@ -159,6 +159,9 @@ app.get("/questions/:id/edit", function(req, res){
     });
 })
 //UPDATE
+app.put("/questions/:id", function(req, res){
+    res.send("put request received for id: " + req.params.id);
+});
 //DESTROY
 /*
 //MANAGE QUESTIONS:
