@@ -3,13 +3,13 @@
 
 
 <form action="/questions/<%=question._id%>" method="PUT">
-    <input type="text" name="title" placeholder="Question title">
-    <input type="text" name="question" placeholder="Question text">
+    <input type="text" name="title" placeholder="Question title" value="<%=question.title%>">
+    <input type="text" name="question" placeholder="Question text" value="<%=question.question%>">
     <% console.log(Object.keys(question)); %>
     <% switch(question.type){
         case "multiplechoice":{
             question.possibleAnswers.forEach(function(answer, index){ %>
-                <input type="text" name="answer<%=index+1%>" id="answer<%=index+1%>">
+                <input type="text" name="answer<%=index+1%>" id="answer<%=index+1%>" value="<%=answer%>">
             <% }); %>    
             <button type="button" class="new">New Answer</button>
             <button type="button" class="remove">Delete Answer</button>
