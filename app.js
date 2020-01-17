@@ -1,9 +1,11 @@
 var express = require("express"),
     app = express(),
      bodyParser = require('body-parser'),
-     mongoose = require('mongoose');
+     mongoose = require('mongoose'),
+     methodOverride = require('method-override');
 
 app.use(express.static("public"));
+app.use(methodOverride("_method"));
 
 mongoose.connect("mongodb://localhost/valentine", {
     useUnifiedTopology: true,
@@ -70,7 +72,7 @@ app.get("/questions/new", function(req, res){
 //CREATE:
 function createMultipleChoice(question){
     var possibleAnswers = [];
-    Object.keys(question).forEach(function(key,index) {
+    Object.keys(question).forEach(function(key) {
         if(key.includes("answer")){
             console.log('answer found!');
             possibleAnswers.push(question[key]);
@@ -141,22 +143,72 @@ app.get("/questions/:id", function(req, res){
 });
 //EDIT
 app.get("/questions/:id/edit", function(req, res){
-    Question.find({_id: req.params.id}, function(err, questions){
+    Question.findById(req.params.id, function(err, question){
         if(err){
             console.log(err);
             res.send("something went wrong");
         } else{
-            console.log("editing question: "); 
-            console.log(questions[0]);
-            console.log(questions[0].possibleAnswers);
-            console.log('SENDING TO EDIT');
-            res.render("editquestion", {question:questions[0]});
+            res.render("editquestion", {question:question});
         }
     });
 })
 //UPDATE
+function updateMultipleChoice(id, question){
+    var possibleAnswers = [];
+    Object.keys(question).forEach(function(key) {
+        if(key.includes("answer")){
+            console.log('answer found!');
+            possibleAnswers.push(question[key]);
+        }
+    });
+    console.log("answers: " + possibleAnswers);
+    QuestionMultipleChoice.findByIdAndUpdate(id, {
+        title: question.title,
+        question: question.question,
+        type: "multiplechoice",
+        possibleAnswers: possibleAnswers
+    }, function(error, question){
+        if(error){
+            console.log("error: " + error);
+        } else{
+            console.log("new question multiple: ");
+            console.log(question);
+        }
+    });
+};
+function updateText(id, question){
+    console.log("creating text!");
+    QuestionText.findByIdAndUpdate(id, {
+        title: question.title, 
+        question: question.question,
+        type: "text"
+    }, function(error, question){
+        if(error){
+            console.log("error: " + error);
+        } else{
+            console.log("new question text: ");
+            console.log(question);
+        }
+    });
+};
 app.put("/questions/:id", function(req, res){
-    res.send("put request received for id: " + req.params.id);
+    console.log("PUT RECEIVED");
+    console.log(req.body.type);
+    switch(req.body.type){
+        case "multiplechoice": {
+            updateMultipleChoice(req.params.id, req.body);
+            break;
+        }
+        case "text": {
+            updateText(req.params.id, req.body);
+            break;
+        }
+        default: {
+            console.log("something went wrong");
+            break;
+        }
+    }
+    res.redirect("/questions/" + req.params.id);
 });
 //DESTROY
 /*
