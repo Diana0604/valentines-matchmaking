@@ -5,10 +5,19 @@ body {
 .mt-15{
     margin-top: 15%;
 }
+.btn-form{
+    margin-top: 10px;
+    background: #edc2d8ff
+}
 
 .btn-blue{
     background: #dae9f1;
 }
 .btn-pink{
     background: #edc2d8ff;
+}
+.container{
+    background: #dae9f1;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
