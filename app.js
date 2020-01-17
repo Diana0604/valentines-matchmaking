@@ -131,6 +131,18 @@ app.post("/questions", function(req, res){
     res.redirect("/questions");
 });
 //SHOW
+app.get("/questions/:id", function(req, res){
+    Question.find({_id: req.params.id}, function(err, question){
+        if(err){
+            console.log("error: ");
+            console.log(err);
+            res.send('something went wrong');
+        } else{
+            console.log(question);
+            res.send(question);
+        }
+    })
+});
 //EDIT
 app.get("/questions/:id/edit", function(req, res){
     Question.find({_id: req.params.id}, function(err, questions){

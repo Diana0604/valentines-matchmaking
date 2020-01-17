@@ -1,7 +1,5 @@
 <%- include("partials/header") -%>
 <%- include("partials/navbar") -%>
-
-
 <form action="/questions/<%=question._id%>" method="PUT">
     <input type="text" name="title" placeholder="Question title" value="<%=question.title%>">
     <input type="text" name="question" placeholder="Question text" value="<%=question.question%>">
