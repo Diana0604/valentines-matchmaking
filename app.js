@@ -211,6 +211,16 @@ app.put("/questions/:id", function(req, res){
     res.redirect("/questions/" + req.params.id);
 });
 //DESTROY
+app.delete("/questions/:id", function(req, res){
+    Question.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            console.log("error: " + err);
+            res.send("something went wrong");
+        } else{
+            res.redirect("/questions");
+        }
+    });
+});
 /*
 //MANAGE QUESTIONS:
 //create new question
