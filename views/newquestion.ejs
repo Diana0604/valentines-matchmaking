@@ -1,30 +1,35 @@
 <%- include("partials/header") -%>
 <%- include("partials/navbar") -%>
+<link rel="stylesheet" href="css/newquestion.css">
 
-<h1>What kind of question do you want to add?</h1>
-<form action="/questions" method="POST">
-    <select name="type" id="type">
-        <option value="text">Text</option>
-        <option value="multiplechoice">Multiple Choice</option>
-    </select>
-    <input id="choosetype" type="button" name="choosetype" value="Choose Type">
-    <div id="general">
-        <input type="text" name="title" placeholder="Question title">
-        <input type="text" name="question" placeholder="Question text">
-    </div>
-    <div id="text">
-        <input type="submit" value="Create Question!">
-    </div>
+<div class="container mt-5">
+    <h1>New Question</h1>
+    <hr>
+    <form action="/questions" method="POST">
+        <label for="type">What kind of question do you want to add?</label>
+        <select name="type" class="form-control" id="type">
+            <option value="text">Text</option>
+            <option value="multiplechoice">Multiple Choice</option>
+        </select>
+        <hr>
+        <div id="general" class="hide">
+            <input type="text" class="form-control" name="title" placeholder="Question title">
+            <textarea class="form-control" name="question" placeholder="Question text"></textarea>
+        </div>
+        <div id="text" class="hide">
+            <input type="submit" class="btn btn-pink" value="Create Question!">
+        </div>
 
-    <div id="multiplechoice">
-        <input type="text" name="answer1" id="answer1">
-        <input type="text" name="answer2" id="answer2">
-        <button type="button" class="new">New Answer</button>
-        <button type="button" class="remove">Delete Answer</button>
-        <input type="submit" value="Create Question!">
-    </div>
-
-</form>
-<script src="/js/multiplechoice.js"></script>
-<script src="/js/newquestion.js"></script>
+        <div id="multiplechoice" class="hide">
+            <p>Possible answers: </p>
+            <input type="text" class="form-control" name="answer1" id="answer1">
+            <input type="text" class="form-control" name="answer2" id="answer2">
+            <button type="button" class="new btn btn-pink">New Answer</button>
+            <button type="button" class="remove btn btn-pink">Delete Answer</button>
+            <input type="submit" class="btn btn-pink" value="Create Question!">
+        </div>
+    </form>
+    <script src="/js/multiplechoice.js"></script>
+    <script src="/js/newquestion.js"></script>
+</div>
 <%- include("partials/footer") -%>

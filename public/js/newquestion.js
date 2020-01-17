@@ -1,8 +1,6 @@
-//var nextMult = null;
-
 function initialize(){
     //general
-    $("div").hide();
+    $("div.hide").hide();
 
     //multiple choice
     nextMult = 3;
@@ -12,30 +10,25 @@ function initialize(){
 initialize();
 
 //1 - when a type is chosen - show options for that type
-$("#choosetype").click(function(){
+/*$(".#choosetype").click(function(){
     initialize();
     var type = $("#type").val();
     $("#"+type).show();
     $("#general").show();
 });
-
-/*
-//multiple choice specifics
-$("#multiplechoice .new").click(function(){
-    console.log('click new detected');
-    var txt1 = '<input type="text" name="answer' + nextMult +'" id="answer' + nextMult + '">';
-    console.log('adding element: ' + txt1);
-    $(this).before(txt1);
-    nextMult++;
-    $("#multiplechoice .remove").show();
-});
-$("#multiplechoice .remove").click(function(){
-    console.log('click remove detected');
-    nextMult--;
-    console.log("delecting element with id: " + "#answer" + nextMult);
-    $("#multiplechoice #answer" + nextMult).remove();
-    if(nextMult === 3){
-        $(this).hide();
-    }
-});
 */
+$( "#type" )
+  .change(function() {
+    initialize();
+    var type = $("#type").val();
+    $("#"+type).show();
+    $("#general").show();
+    /*
+    var str = "";
+    $( "select option:selected" ).each(function() {
+      str += $( this ).text() + " ";
+    });
+    $( "div" ).text( str );
+    */
+  })
+  .trigger( "change" );

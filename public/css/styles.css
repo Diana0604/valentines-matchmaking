@@ -5,3 +5,10 @@ body {
 .mt-15{
     margin-top: 15%;
 }
+
+.btn-blue{
+    background: #dae9f1;
+}
+.btn-pink{
+    background: #edc2d8ff;
+}
