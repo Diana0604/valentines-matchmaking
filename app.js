@@ -116,7 +116,7 @@ app.post("/questions", function(req, res){
     
     switch(req.body.type){
         case "multiplechoice": {
-            createMultipleChoice(req.body.question);
+            createMultipleChoice(req.body);
             break;
         }
         case "text": {

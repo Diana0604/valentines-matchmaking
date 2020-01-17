@@ -1,10 +1,10 @@
 $(".remove").hide();
-var nextMult = 3;
+var nextMult = $(".answer").length + 1;
 
 //multiple choice specifics
 $(".new").click(function(){
     console.log('click new detected');
-    var txt1 = '<input type="text" class="form-control" name="answer' + nextMult +'" id="answer' + nextMult + '">';
+    var txt1 = '<input type="text" class="form-control  answer" name="answer' + nextMult +'" id="answer' + nextMult + '">';
     console.log('adding element: ' + txt1);
     $(this).before(txt1);
     nextMult++;
