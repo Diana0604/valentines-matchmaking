@@ -1,0 +1,25 @@
+ul.multiplechoice{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li.multiplechoice{
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    background: #fff;
+    height: 40px;
+    line-height: 40px;
+    color: #666;
+}
+li.multiplechoice:nth-child(2n){
+    background: none;
+}
+.container{
+    padding-left: 0;
+    padding-right: 0;
+}
+div.general{
+    margin-left: 10px;
+}
