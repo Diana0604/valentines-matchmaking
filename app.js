@@ -15,10 +15,6 @@ var VALIDTYPE = new Set();
 VALIDTYPE.add("text");
 
 //SCHEMA SETUP:
-/*
-var users = mongoose.model('User', loginUserSchema, 'users');
-var registerUser = mongoose.model('Registered', registerUserSchema, 'users');
-*/
 var questionSchema = new mongoose.Schema({
     title: String, 
     question: String,
