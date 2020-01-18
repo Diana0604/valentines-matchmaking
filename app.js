@@ -46,62 +46,17 @@ app.get("/questions/new", function(req, res){
     res.render("newquestion");
 });
 //CREATE:
-function createMultipleChoice(question){
-    var possibleAnswers = [];
-    Object.keys(question).forEach(function(key) {
-        if(key.includes("answer")){
-            console.log('answer found!');
-            possibleAnswers.push(question[key]);
-        }
-    });
-    console.log("answers: " + possibleAnswers);
-    Question.create({
-        title: question.title,
-        question: question.question,
-        type: "multiplechoice",
-        possibleAnswers: possibleAnswers
-    }, function(error, question){
-        if(error){
-            console.log("error: " + error);
-        } else{
-            console.log("new question multiple: ");
-            console.log(question);
-        }
-    });
-};
-function createText(question){
-    console.log("creating text!");
-    Question.create({
-        title: question.title, 
-        question: question.question,
-        type: "text"
-    }, function(error, question){
-        if(error){
-            console.log("error: " + error);
-        } else{
-            console.log("new question text: ");
-            console.log(question);
-        }
-    });
-};
 app.post("/questions", function(req, res){
     console.log("type received");
-    console.log(req.body.type);
-    
-    switch(req.body.type){
-        case "multiplechoice": {
-            createMultipleChoice(req.body);
-            break;
+    console.log(req.body.question);
+    Question.create(req.body.question, function(err, question){
+        if(err){
+            console.log("error: " + err);
+        } else{
+            console.log("new question ");
+            console.log(question);
         }
-        case "text": {
-            createText(req.body);
-            break;
-        }
-        default: {
-            console.log("something went wrong");
-            break;
-        }
-    }
+    });
     res.redirect("/questions");
 });
 //SHOW
@@ -153,7 +108,6 @@ function updateMultipleChoice(id, question){
     });
 };
 function updateText(id, question){
-    console.log("creating text!");
     Question.findByIdAndUpdate(id, {
         title: question.title, 
         question: question.question,
@@ -169,21 +123,14 @@ function updateText(id, question){
 };
 app.put("/questions/:id", function(req, res){
     console.log("PUT RECEIVED");
-    console.log(req.body.type);
-    switch(req.body.type){
-        case "multiplechoice": {
-            updateMultipleChoice(req.params.id, req.body);
-            break;
+    console.log(req.body.question);
+    Question.findByIdAndUpdate(req.params.id, req.body.question, function(err, question){
+        if(err){
+            console.log(err);
+        } else{
+            console.log("question updated: " + question);
         }
-        case "text": {
-            updateText(req.params.id, req.body);
-            break;
-        }
-        default: {
-            console.log("something went wrong");
-            break;
-        }
-    }
+    });
     res.redirect("/questions/" + req.params.id);
 });
 //DESTROY

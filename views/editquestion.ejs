@@ -2,14 +2,14 @@
 <%- include("partials/navbar") -%>
 <div class="container mt-5">
     <form action="/questions/<%=question._id%>?_method=PUT" method="POST">
-        <input type="hidden" name="type" value="<%= question.type %>">
-        <input type="text" class="form-control" name="title" placeholder="Question title" value="<%=question.title%>">
-        <input type="text" class="form-control" name="question" placeholder="Question text" value="<%=question.question%>">
+        <input type="hidden" name="question[type]" value="<%= question.type %>">
+        <input type="text" class="form-control" name="question[title]" placeholder="Question title" value="<%=question.title%>">
+        <input type="text" class="form-control" name="question[question]" placeholder="Question text" value="<%=question.question%>">
         <% console.log(Object.keys(question)); %>
         <% switch(question.type){
             case "multiplechoice":{
                 question.possibleAnswers.forEach(function(answer, index){ %>
-                    <input type="text" class="form-control answer" name="answer<%=index+1%>" id="answer<%=index+1%>" value="<%=answer%>">
+                    <input type="text" class="form-control answer" name="question[possibleAnswers][<%=index+1%>]" id="answer<%=index+1%>" value="<%=answer%>">
                 <% }); %>    
                 <button type="button" class="new btn btn-form">New Answer</button>
                 <button type="button" class="remove btn btn-form">Delete Answer</button>
