@@ -18,3 +18,7 @@ body{
     -moz-background-size: cover;
     -o-background-size: cover;
 }
+
+div.container {
+    background: none;
+}

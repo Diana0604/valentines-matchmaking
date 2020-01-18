@@ -55,6 +55,13 @@ var answersListAux = [];
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
+
+//============================================== GENERAL =================================================
+app.get("/", function(req, res){
+    res.render("index");
+});
+
+//========================================= MANAGE QUESTIONS =============================================
 //INDEX:
 app.get("/questions", function(req, res){
     Question.find({}, function(err, questions){
@@ -221,56 +228,8 @@ app.delete("/questions/:id", function(req, res){
         }
     });
 });
+//============================================ ANSWER TEST ===============================================
 /*
-//MANAGE QUESTIONS:
-//create new question
-app.get("/questions/new", function(req, res){
-    res.render("newquestion");
-});
-app.post("/settype", function(req, res){
-    var type = req.body.type;
-    res.redirect("/questions/new/" + type);
-});
-app.get("/questions/new/:type", function(req, res) {
-    var type = req.params.type;
-    if(VALIDTYPE.has(type)){
-        newQuestionType = req.params.type;
-        res.render(req.params.type);
-    } else{
-        res.send("not a valid question type");
-    }
-});
-app.post("/questions", function(req, res){
-    console.log("new question");
-    var title = req.body.title;
-    var question = req.body.question;
-    var questionType = newQuestionType;
-    console.log("title: " + title);
-    console.log("question: " + question);
-    console.log("question type: " + questionType);
-    Question.find({}, function(err, questions){
-        if(err){
-            console.log("ERROR! " + err);
-        } else{
-            var number = questions.length + 1;
-            Question.create({
-                title: title,
-                question: question,
-                questionType: questionType,
-                number: Number(number)
-            }, function(err, question){
-                if(err){
-                    console.log("ERROR: " + err);
-                } else{
-                    console.log("new question added: " + question);
-                }
-            });
-        }
-    });
-    newQuestionType = "";
-    res.redirect("/questions/new");
-});
-
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
     AnswersList.create({
