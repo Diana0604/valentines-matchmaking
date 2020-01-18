@@ -108,6 +108,11 @@ app.delete("/questions/:id", function(req, res){
     });
 });
 //============================================ ANSWER TEST ===============================================
+app.get("/test", function(req, res){
+    res.send("test");
+});
+
+
 /*
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
