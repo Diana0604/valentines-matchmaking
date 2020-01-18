@@ -5,6 +5,7 @@
         <input type="hidden" name="question[type]" value="<%= question.type %>">
         <input type="text" class="form-control" name="question[title]" placeholder="Question title" value="<%=question.title%>">
         <input type="text" class="form-control" name="question[question]" placeholder="Question text" value="<%=question.question%>">
+        <hr>
         <% console.log(Object.keys(question)); %>
         <% switch(question.type){
             case "multiplechoice":{
