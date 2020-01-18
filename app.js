@@ -1,8 +1,17 @@
 var express = require("express"),
     app = express(),
-     bodyParser = require('body-parser'),
-     mongoose = require('mongoose'),
-     methodOverride = require('method-override');
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    methodOverride = require('method-override'),
+    questiondb = require("./models/questions"),
+    Question = questiondb.Question,
+    QuestionText = questiondb.QuestionText,
+    QuestionMultipleChoice = questiondb.QuestionMultipleChoice;
+    answerdb = require("./models/answer"),
+    Answer = answerdb.Answer,
+    AnswerText = answerdb.AnswerText,
+    AnswerMultipleChoice = answerdb.AnswerMultipleChoice, 
+    User = require("./models/user");
 
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
@@ -16,46 +25,10 @@ mongoose.connect("mongodb://localhost/valentine", {
 var VALIDTYPE = new Set();
 VALIDTYPE.add("text");
 
-//SCHEMA SETUP:
-var questionSchema = new mongoose.Schema({
-    title: String, 
-    question: String,
-    type: String,
-    possibleAnswers: [String]
-});
-var questionTextSchema = new mongoose.Schema({
-    title: String, 
-    question: String,
-    type: String
-});
-var questionMultiplechoiceSchema = new mongoose.Schema({
-    title: String, 
-    question: String, 
-    type: String, 
-    possibleAnswers: [String]
-});
-var Question = mongoose.model("Question", questionSchema, 'questions');
-var QuestionText = mongoose.model("QuestionText", questionTextSchema, 'questions');
-var QuestionMultipleChoice = mongoose.model("QuestionMultiplechoiceSchema", questionMultiplechoiceSchema, 'questions');
-
-//answers
-var answerSchema = new mongoose.Schema({
-    number: Number,
-    answer: String},
-    {_id: false});
-var answersListSchema = new mongoose.Schema({
-    answers: [answerSchema]
-});
-
-var Answer = mongoose.model("Answer", answerSchema);
-var AnswersList = mongoose.model("AnswersList", answersListSchema);
-
 var answersListAux = [];
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
-
 //============================================== GENERAL =================================================
 app.get("/", function(req, res){
     res.render("index");
