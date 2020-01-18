@@ -84,43 +84,6 @@ app.get("/questions/:id/edit", function(req, res){
     });
 })
 //UPDATE
-function updateMultipleChoice(id, question){
-    var possibleAnswers = [];
-    Object.keys(question).forEach(function(key) {
-        if(key.includes("answer")){
-            console.log('answer found!');
-            possibleAnswers.push(question[key]);
-        }
-    });
-    console.log("answers: " + possibleAnswers);
-    Question.findByIdAndUpdate(id, {
-        title: question.title,
-        question: question.question,
-        type: "multiplechoice",
-        possibleAnswers: possibleAnswers
-    }, function(error, question){
-        if(error){
-            console.log("error: " + error);
-        } else{
-            console.log("new question multiple: ");
-            console.log(question);
-        }
-    });
-};
-function updateText(id, question){
-    Question.findByIdAndUpdate(id, {
-        title: question.title, 
-        question: question.question,
-        type: "text"
-    }, function(error, question){
-        if(error){
-            console.log("error: " + error);
-        } else{
-            console.log("new question text: ");
-            console.log(question);
-        }
-    });
-};
 app.put("/questions/:id", function(req, res){
     console.log("PUT RECEIVED");
     console.log(req.body.question);
