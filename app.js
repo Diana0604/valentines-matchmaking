@@ -5,12 +5,8 @@ var express = require("express"),
     methodOverride = require('method-override'),
     questiondb = require("./models/questions"),
     Question = questiondb.Question,
-    QuestionText = questiondb.QuestionText,
-    QuestionMultipleChoice = questiondb.QuestionMultipleChoice;
     answerdb = require("./models/answer"),
     Answer = answerdb.Answer,
-    AnswerText = answerdb.AnswerText,
-    AnswerMultipleChoice = answerdb.AnswerMultipleChoice, 
     User = require("./models/user");
 
 app.use(express.static("public"));
@@ -59,7 +55,7 @@ function createMultipleChoice(question){
         }
     });
     console.log("answers: " + possibleAnswers);
-    QuestionMultipleChoice.create({
+    Question.create({
         title: question.title,
         question: question.question,
         type: "multiplechoice",
@@ -75,7 +71,7 @@ function createMultipleChoice(question){
 };
 function createText(question){
     console.log("creating text!");
-    QuestionText.create({
+    Question.create({
         title: question.title, 
         question: question.question,
         type: "text"
@@ -142,7 +138,7 @@ function updateMultipleChoice(id, question){
         }
     });
     console.log("answers: " + possibleAnswers);
-    QuestionMultipleChoice.findByIdAndUpdate(id, {
+    Question.findByIdAndUpdate(id, {
         title: question.title,
         question: question.question,
         type: "multiplechoice",
@@ -158,7 +154,7 @@ function updateMultipleChoice(id, question){
 };
 function updateText(id, question){
     console.log("creating text!");
-    QuestionText.findByIdAndUpdate(id, {
+    Question.findByIdAndUpdate(id, {
         title: question.title, 
         question: question.question,
         type: "text"
