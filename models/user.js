@@ -2,8 +2,9 @@ var mongoose = require('mongoose'),
     answerSchema = require('./answer').answerSchema;
 
 var userSchema = new mongoose.Schema({
-    name: String, 
+    username: String,
     email: String,
+    password: String,
     answerList: [{
         answerSchema
     }]

@@ -7,7 +7,11 @@ var express = require("express"),
     Question = questiondb.Question,
     answerdb = require("./models/answer"),
     Answer = answerdb.Answer,
-    User = require("./models/user");
+    User = require("./models/user"),
+    seedDB = require("./seedDB"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    passportLocalMongoose = require("passport-local-mongoose");
 
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
@@ -109,10 +113,83 @@ app.delete("/questions/:id", function(req, res){
 });
 //============================================ ANSWER TEST ===============================================
 app.get("/test", function(req, res){
-    res.send("test");
+    Question.find({}, function(err, questions){
+        if(err){
+            console.log("error");
+            res.send("error");
+        } else{
+            console.log(questions);
+            res.render("test", {questions: questions});
+        }
+    });
 });
-
-
+app.post("/test", function(req, res){
+    console.log("POST FOR TEST");
+    console.log(req.body.answers);
+    var answerList = [];
+    req.body.answers.forEach(function(answer, index){
+        Question.findById(req.body.questionID[index], function(err, question){
+            console.log("question: ");
+            console.log(question);
+            answer.question = question;
+            answerList.push(answer);
+        });
+    });
+    console.log('answerList: ' + answerList);
+    User.create({
+        name: "fake", 
+        email: "fake@gmail.com",
+        answerList: answerList
+    }, function(err, user){
+        if(err){
+            console.log("error: " + err);
+        } else{
+            console.log(user);
+        }
+    });
+    /*
+        console.log(answer.question._id);
+        Question.findById(answer.question._id, function(err, question){
+            if(err){
+                console.log('error' + err);
+            } else{
+                console.log('answer for question: ' + question);
+                nextAnswer = new Answer({
+                    question: question,
+                    text: answer.text,
+                    choice: answer.choice
+                });
+                console.log("new answer created: ");
+                console.log(nextAnswer);
+                answerList.push(nextAnswer);
+            }
+        });
+    });
+    //console.log(answerList[0].question);
+    */
+    /*
+    var answerList = [];
+    req.body.answers.forEach(function(answer){
+        answerList.push(new Answer(answer));
+    });
+    console.log('answerList: ' + answerList);
+    User.create({
+        name: "fake", 
+        email: "fake@gmail.com",
+        answerList: answerList
+    }, function(err, user){
+        if(err){
+            console.log("error: " + err);
+        } else{
+            console.log(user);
+        }
+    });
+    */
+    res.redirect("/test/finish");
+});
+app.get("/test/finish", function(req, res){
+    res.render("finish");
+});
 /*
 //ANSWER QUESTIONS:
 app.get("/test/finish", function(req, res){
@@ -163,5 +240,6 @@ app.get("*", function(req, res){
 
 //PORT:
 app.listen(3000, function(){
+    //seedDB();
     console.log('server started');
 });

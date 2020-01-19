@@ -4,11 +4,10 @@ var mongoose = require('mongoose'),
 //ANSWERS:
 var answerSchema = new mongoose.Schema({
     question: questionSchema,
-    type: String,
     //case: text
     text: String,
     //case: multiplechoice
-    choice: Number
+    choice: String
 });
 var Answer = mongoose.model("Answer", answerSchema, 'answers');
 

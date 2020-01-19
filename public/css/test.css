@@ -1,3 +1,19 @@
-.content{
-    background: pink;
+.question:nth-child(even) {
+    background: #fcf6f5ff
+}
+.question:nth-child(odd) {
+    background:#dae9f1
+}
+
+button.btn-generic{
+    background: #edc2d8ff;
+}
+
+div.question{
+    padding: 10px;
+}
+
+.container{
+    padding-left: 0px;
+    padding-right: 0px;
 }
