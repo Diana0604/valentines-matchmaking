@@ -1,20 +1,33 @@
+    //general
 var express = require("express"),
     app = express(),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
     methodOverride = require('method-override'),
-    questiondb = require("./models/questions"),
-    Question = questiondb.Question,
-    answerdb = require("./models/answer"),
-    Answer = answerdb.Answer,
+    //db
+    mongoose = require('mongoose'),
+    Question = require("./models/questions").Question,
+    Answer = require("./models/answer").Answer,
     User = require("./models/user"),
     seedDB = require("./seedDB"),
+    //passport
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose");
 
+app.use(require("express-session")({
+    secret: "Si sabes esperar, durant molts anys",
+    resave: false,
+    saveUninitialized: false
+}));
+
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect("mongodb://localhost/valentine", {
     useUnifiedTopology: true,
@@ -30,7 +43,7 @@ var answersListAux = [];
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 //============================================== GENERAL =================================================
-app.get("/", function(req, res){
+app.get("/", isLoggedIn, function(req, res){
     res.render("index");
 });
 
@@ -237,6 +250,47 @@ app.get("*", function(req, res){
     res.send('this page does not exists');
 });
 */
+
+//============================================ AUTH ROUTES ===============================================
+//REGISTER
+app.get("/register", function(req, res){
+    res.render("register");
+});
+app.post("/register", function(req, res){
+    User.register(new User({username: req.body.username}), req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            res.redirect("/register");
+        } else{
+            passport.authenticate("local")(req, res, function(){
+                res.redirect("/");
+            });
+        }
+    });
+});
+//LOGIN
+app.get("/login", function(req, res){
+    res.render("login");
+});
+
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login"
+}) ,function(req, res){
+    res.redirect("/");
+});
+//LOGOUT
+app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect("/login");
+});
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+};
 
 //PORT:
 app.listen(3000, function(){
