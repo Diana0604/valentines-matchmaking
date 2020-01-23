@@ -13,7 +13,7 @@
             <% break; }
                 case "multiplechoice":{ 
                     question.possibleAnswers.forEach(function(answer){ %>
-            <input type="radio" name="answers[<%=index%>][choice]" value="<%=answer%>"> <%=answer%><br>
+            <input type="radio" name="answers[<%=index%>][choice]" value="<%=answer%>" required> <%=answer%><br>
             <% }) %>
             <% break; }
                 default: {%>
