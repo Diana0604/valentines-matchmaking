@@ -126,21 +126,25 @@ app.delete("/questions/:id", isLoggedIn, function(req, res){
 });
 //============================================ ANSWER TEST ===============================================
 app.get("/test", isLoggedIn, function(req, res){
-    Question.find({}, function(err, questions){
-        if(err){
-            console.log("error");
-            res.send("error");
-        } else{
-            console.log(questions);
-            res.render("test", {questions: questions});
-        }
-    });
+    //1 check if user has already answered test
+    if(req.user.answerList && req.user.answerList.length > 0){
+        res.send('are you trying to cheat?! Don\'t answer the test again!');
+    } else{
+        //2 go to test
+        Question.find({}, function(err, questions){
+            if(err){
+                console.log("error");
+                res.send("error");
+            } else{
+                res.render("test", {questions: questions});
+            }
+        });
+    }
 });
 //this spagheti code MUST be reviewed
 app.post("/test", function(req, res){
     var newUser = req.user;
     newUser.answerList = [];
-    console.log('preparing new user');
     req.body.answers.forEach(function(answer, index){
         Question.findById(req.body.questionID[index], function(err, question){
             if(err){
@@ -156,8 +160,6 @@ app.post("/test", function(req, res){
                             User.findByIdAndUpdate(newUser._id, newUser, function(err, user){
                                 if(err){
                                     console.log('error: ' + err);
-                                } else{
-                                    console.log('user updated' + user);
                                 }
                             });
                         }
