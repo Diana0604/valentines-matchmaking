@@ -43,13 +43,13 @@ var answersListAux = [];
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 //============================================== GENERAL =================================================
-app.get("/", isLoggedIn, function(req, res){
+app.get("/", function(req, res){
     res.render("index");
 });
 
 //========================================= MANAGE QUESTIONS =============================================
 //INDEX:
-app.get("/questions", function(req, res){
+app.get("/questions", isLoggedIn, function(req, res){
     Question.find({}, function(err, questions){
         if(err){
             console.log('could not load questions!');
@@ -59,11 +59,11 @@ app.get("/questions", function(req, res){
     });
 });
 //NEW:
-app.get("/questions/new", function(req, res){
+app.get("/questions/new", isLoggedIn, function(req, res){
     res.render("newquestion");
 });
 //CREATE:
-app.post("/questions", function(req, res){
+app.post("/questions", isLoggedIn, function(req, res){
     console.log("type received");
     console.log(req.body.question);
     Question.create(req.body.question, function(err, question){
@@ -77,7 +77,7 @@ app.post("/questions", function(req, res){
     res.redirect("/questions");
 });
 //SHOW
-app.get("/questions/:id", function(req, res){
+app.get("/questions/:id", isLoggedIn, function(req, res){
     Question.findById(req.params.id, function(err, question){
         if(err){
             console.log("error: ");
@@ -90,7 +90,7 @@ app.get("/questions/:id", function(req, res){
     })
 });
 //EDIT
-app.get("/questions/:id/edit", function(req, res){
+app.get("/questions/:id/edit", isLoggedIn, function(req, res){
     Question.findById(req.params.id, function(err, question){
         if(err){
             console.log(err);
@@ -101,7 +101,7 @@ app.get("/questions/:id/edit", function(req, res){
     });
 })
 //UPDATE
-app.put("/questions/:id", function(req, res){
+app.put("/questions/:id", isLoggedIn, function(req, res){
     console.log("PUT RECEIVED");
     console.log(req.body.question);
     Question.findByIdAndUpdate(req.params.id, req.body.question, function(err, question){
@@ -114,7 +114,7 @@ app.put("/questions/:id", function(req, res){
     res.redirect("/questions/" + req.params.id);
 });
 //DESTROY
-app.delete("/questions/:id", function(req, res){
+app.delete("/questions/:id", isLoggedIn, function(req, res){
     Question.findByIdAndRemove(req.params.id, function(err){
         if(err){
             console.log("error: " + err);
@@ -125,7 +125,7 @@ app.delete("/questions/:id", function(req, res){
     });
 });
 //============================================ ANSWER TEST ===============================================
-app.get("/test", function(req, res){
+app.get("/test", isLoggedIn, function(req, res){
     Question.find({}, function(err, questions){
         if(err){
             console.log("error");
@@ -136,121 +136,41 @@ app.get("/test", function(req, res){
         }
     });
 });
+//this spagheti code MUST be reviewed
 app.post("/test", function(req, res){
-    console.log("POST FOR TEST");
-    console.log(req.body.answers);
-    var answerList = [];
+    var newUser = req.user;
+    newUser.answerList = [];
+    console.log('preparing new user');
     req.body.answers.forEach(function(answer, index){
         Question.findById(req.body.questionID[index], function(err, question){
-            console.log("question: ");
-            console.log(question);
-            answer.question = question;
-            answerList.push(answer);
-        });
-    });
-    console.log('answerList: ' + answerList);
-    User.create({
-        name: "fake", 
-        email: "fake@gmail.com",
-        answerList: answerList
-    }, function(err, user){
-        if(err){
-            console.log("error: " + err);
-        } else{
-            console.log(user);
-        }
-    });
-    /*
-        console.log(answer.question._id);
-        Question.findById(answer.question._id, function(err, question){
             if(err){
-                console.log('error' + err);
+                console.log('error: ' + err);
             } else{
-                console.log('answer for question: ' + question);
-                nextAnswer = new Answer({
-                    question: question,
-                    text: answer.text,
-                    choice: answer.choice
+                answer.question = question;
+                Answer.create(answer, function(err, answerdb){
+                    if(err){
+                        console.log('error: ' + err);
+                    } else{
+                        newUser.answerList.push(answerdb);
+                        if(newUser.answerList.length === req.body.answers.length){
+                            User.findByIdAndUpdate(newUser._id, newUser, function(err, user){
+                                if(err){
+                                    console.log('error: ' + err);
+                                } else{
+                                    console.log('user updated' + user);
+                                }
+                            });
+                        }
+                    }
                 });
-                console.log("new answer created: ");
-                console.log(nextAnswer);
-                answerList.push(nextAnswer);
-            }
+            }        
         });
     });
-    //console.log(answerList[0].question);
-    */
-    /*
-    var answerList = [];
-    req.body.answers.forEach(function(answer){
-        answerList.push(new Answer(answer));
-    });
-    console.log('answerList: ' + answerList);
-    User.create({
-        name: "fake", 
-        email: "fake@gmail.com",
-        answerList: answerList
-    }, function(err, user){
-        if(err){
-            console.log("error: " + err);
-        } else{
-            console.log(user);
-        }
-    });
-    */
     res.redirect("/test/finish");
 });
-app.get("/test/finish", function(req, res){
+app.get("/test/finish", isLoggedIn, function(req, res){
     res.render("finish");
 });
-/*
-//ANSWER QUESTIONS:
-app.get("/test/finish", function(req, res){
-    AnswersList.create({
-        answers: answersListAux
-    }, function(err, answer){
-        if(err){
-            console.log("ERROR: " + err);
-        } else{
-            console.log("new answer added: " + answer);
-        }
-    });
-    res.render("finish");
-});
-app.get("/test/:question", function(req, res){
-    if(isNaN(req.params.question)){
-        res.send("this page is not valid");
-    } else{
-        var questionNumber = Number(req.params.question) - 1;
-        //Get questions from db
-        Question.find({}, function(err, questions){
-            if(err){
-                console.log("ERROR! " + err);
-            } else{
-                if(questionNumber < questions.length){
-                    res.render("test", {question:questions[questionNumber]});
-                } else{
-                    res.redirect("/test/finish");
-                }
-            }
-        });
-    }
-});
-app.post("/:answer", function(req, res){
-    var newAnswer = new Answer ({
-        number: req.params.answer,
-        answer: req.body.answer
-    });
-    answersListAux.push(newAnswer);
-    var nextQ = Number(req.params.answer) + 1;
-    res.redirect("test/" + nextQ);
-});
-//GENERIC:
-app.get("*", function(req, res){
-    res.send('this page does not exists');
-});
-*/
-
 //============================================ AUTH ROUTES ===============================================
 //REGISTER
 app.get("/register", function(req, res){
@@ -292,6 +212,10 @@ function isLoggedIn(req, res, next){
     res.redirect("/login");
 };
 
+//GENERIC:
+app.get("*", function(req, res){
+    res.send('this page does not exists');
+});
 //PORT:
 app.listen(3000, function(){
     //seedDB();
