@@ -5,12 +5,21 @@
         <h1>Valentine's Test</h1>
         <h3>Ready to find true love?</h3>
         <hr>
-        <a href="/test">
-            <button class="btn btn-default btn-lg btn-dark">Take the test</button>
-        </a>
-        <a href="/logout">
-            <button class="btn btn-default btn-lg btn-dark">Log Out</button>
-        </a>
+        <% if(!currentUser) { %>
+            <a href="/login">
+                <button class="btn btn-default btn-lg btn-dark">Login</button>
+            </a>
+            <a href="/register">
+                <button class="btn btn-default btn-lg btn-dark">Sign Up</button>
+            </a>
+        <% } else { %>
+            <a href="/test">
+                <button class="btn btn-default btn-lg btn-dark">Take the test</button>
+            </a>
+            <a href="/logout">
+                <button class="btn btn-default btn-lg btn-dark">Log Out</button>
+            </a>
+        <% } %>
     </div>
 </div>
 

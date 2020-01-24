@@ -13,8 +13,11 @@
           <a class="nav-link text" href="/questions/new">New Question</a>
         </li>
       </ul>
-      <a class="nav-item text btn btn-info mx-lg-1 my-2 my-lg-0" href="/login">Login</a>
-      <a class="nav-item text mx-lg-1 my-2 my-lg-0" href="/register"><button class="btn btn-info">Sign Up</button></a>
-      <a class="nav-item text mx-lg-1 my-2 my-lg-0" href="/logout"><button class="btn btn-info">Log out</button></a>
+      <% if(!currentUser) {%>
+        <a class="nav-item text btn btn-info mx-lg-1 my-2 my-lg-0" href="/login">Login</a>
+        <a class="nav-item text mx-lg-1 my-2 my-lg-0" href="/register"><button class="btn btn-info">Sign Up</button></a>
+      <% } else { %>
+        <a class="nav-item text mx-lg-1 my-2 my-lg-0" href="/logout"><button class="btn btn-info">Log out</button></a>
+      <% } %>  
     </div>
 </nav>
