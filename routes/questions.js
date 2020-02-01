@@ -1,10 +1,10 @@
 var express = require('express'),
     router = express.Router(),
-    isLoggedIn = require('../common').isLoggedIn,
+    isAdmin = require('../common').isAdmin,
     Question = require('../models/questions').Question;
 
 //INDEX:
-router.get("/questions", isLoggedIn, function(req, res){
+router.get("/questions", isAdmin, function(req, res){
     Question.find({}, function(err, questions){
         if(err){
             console.log('could not load questions!');
@@ -14,11 +14,11 @@ router.get("/questions", isLoggedIn, function(req, res){
     });
 });
 //NEW:
-router.get("/questions/new", isLoggedIn, function(req, res){
+router.get("/questions/new", isAdmin, function(req, res){
     res.render("newquestion");
 });
 //CREATE:
-router.post("/questions", isLoggedIn, function(req, res){
+router.post("/questions", isAdmin, function(req, res){
     console.log("type received");
     console.log(req.body.question);
     Question.create(req.body.question, function(err, question){
@@ -32,7 +32,7 @@ router.post("/questions", isLoggedIn, function(req, res){
     res.redirect("/questions");
 });
 //SHOW
-router.get("/questions/:id", isLoggedIn, function(req, res){
+router.get("/questions/:id", isAdmin, function(req, res){
     Question.findById(req.params.id, function(err, question){
         if(err){
             console.log("error: ");
@@ -45,7 +45,7 @@ router.get("/questions/:id", isLoggedIn, function(req, res){
     })
 });
 //EDIT 
-router.get("/questions/:id/edit", isLoggedIn, function(req, res){
+router.get("/questions/:id/edit", isAdmin, function(req, res){
     Question.findById(req.params.id, function(err, question){
         if(err){
             console.log(err);
@@ -56,7 +56,7 @@ router.get("/questions/:id/edit", isLoggedIn, function(req, res){
     });
 })
 //UPDATE
-router.put("/questions/:id", isLoggedIn, function(req, res){
+router.put("/questions/:id", isAdmin, function(req, res){
     console.log("PUT RECEIVED");
     console.log(req.body.question);
     Question.findByIdAndUpdate(req.params.id, req.body.question, function(err, question){
@@ -69,7 +69,7 @@ router.put("/questions/:id", isLoggedIn, function(req, res){
     res.redirect("/questions/" + req.params.id);
 });
 //DESTROY
-router.delete("/questions/:id", isLoggedIn, function(req, res){
+router.delete("/questions/:id", isAdmin, function(req, res){
     Question.findByIdAndRemove(req.params.id, function(err){
         if(err){
             console.log("error: " + err);

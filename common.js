@@ -6,4 +6,15 @@ function isLoggedIn(req, res, next){
     res.redirect("/login");
 };
 
-module.exports = {isLoggedIn:isLoggedIn};
+function isAdmin(req, res, next){
+    if(req.isAuthenticated()){
+        if(req.user.admin){
+            return next();
+        }
+        res.redirect("/");
+        return;
+    }
+    res.redirect("/login");
+};
+
+module.exports = {isLoggedIn:isLoggedIn, isAdmin:isAdmin};
