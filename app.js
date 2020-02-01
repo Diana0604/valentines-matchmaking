@@ -34,10 +34,14 @@ app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
 });
-
-mongoose.connect("mongodb://localhost/valentine", {
+mongoose.connect("mongodb+srv://admin:admin@valentine-abe6i.mongodb.net/test?retryWrites=true&w=majority", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useCreateIndex: true
+}).then(() => {
+    console.log('connected to db');
+}).catch(err => {
+    console.log('error: ' + err);
 });
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -60,3 +64,9 @@ app.listen(process.env.PORT, process.env.IP, function(){
     //seedDB();
     console.log('server started');
 });
+/*
+app.listen(3000, function(){
+    //seedDB();
+    console.log('server started');
+});
+*/
