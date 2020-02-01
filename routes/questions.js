@@ -44,7 +44,7 @@ router.get("/questions/:id", isLoggedIn, function(req, res){
         }
     })
 });
-//EDIT
+//EDIT 
 router.get("/questions/:id/edit", isLoggedIn, function(req, res){
     Question.findById(req.params.id, function(err, question){
         if(err){
