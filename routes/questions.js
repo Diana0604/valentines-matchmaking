@@ -4,7 +4,7 @@ var express = require('express'),
     Question = require('../models/questions').Question;
 
 //INDEX:
-router.get("/questions", isLoggedIn, function(req, res){
+router.get("/questions", function(req, res){
     Question.find({}, function(err, questions){
         if(err){
             console.log('could not load questions!');
