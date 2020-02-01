@@ -25,7 +25,7 @@ app.use(express.static("public"));
 app.use(methodOverride("_method"));
 app.use(passport.initialize());
 app.use(passport.session());
-/*
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -50,7 +50,7 @@ app.get("/", function(req, res){
 app.use(questionsRoutes);
 app.use(testRoutes);
 app.use(authRoutes);
-*/
+
 //GENERIC:
 app.get("*", function(req, res){
     res.send('this page does not exists');
