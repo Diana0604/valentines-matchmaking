@@ -1,5 +1,24 @@
+
+@font-face {
+    font-family: 'fontleroy_brown_nfregular';
+    src: url('../fonts/fontleroybrown/fontleroybrown.regular-webfont.woff2') format('woff2'),
+         url('../fonts/fontleroybrown/fontleroybrown.regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'italiccregular';
+    src: url('../fonts/italicC/italicc-webfont.woff2') format('woff2'),
+         url('../fonts/italicC/italicc-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
     background: #edc2d8ff;
+    font-family: 'italiccregular';
 }
 
 .mt-10{
