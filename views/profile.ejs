@@ -1,0 +1,39 @@
+<%- include("partials/header") -%>
+<link rel="stylesheet" href="/css/profile.css">
+<div class="container mt-5">
+    <div class="general">
+        <h5>Manage Profile</h5>
+        <hr>
+        <div class="row">
+          <div class="col">
+            Profile
+          </div>
+          <div class="col">
+              <p>
+                Name
+                <hr>
+                <%=user.username%>
+            </p>
+            <p class="mt-5">
+                email
+                <hr>
+                <%=user.email%>
+            </p>
+          </div>
+        </div>
+        <div class="w-100"></div>
+        <hr>
+        <div class="row mt-5">
+            <div class="col">
+              Test
+            </div>
+            <div class="col">
+                <% if(user.answerList && user.answerList.length > 0){ %>
+                    Results will be released soon...
+                <% } else { %>
+                    <a href="/test"><button class="btn btn-form mt-0">Answer Test</button></a>
+                <% } %>
+        </div>
+    </div>
+</div>
+<%- include("partials/footer") -%>

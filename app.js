@@ -13,7 +13,8 @@ var express = require("express"),
     //routes
     authRoutes = require('./routes/authentication'),
     testRoutes = require('./routes/test'),
-    questionsRoutes = require('./routes/questions');
+    questionsRoutes = require('./routes/questions'),
+    profileRoutes = require('./routes/profile');
 
 app.use(require("express-session")({
     secret: "Si sabes esperar, durant molts anys",
