@@ -9,23 +9,21 @@
             Profile
           </div>
           <div class="col">
-              <p>
-                name
-                <hr>
-                <form action="/username" method="POST">
-                    <input type="text" name="username" class="username" value="<%=user.username%>" disabled>
-                    <i class="fas fa-edit mr-2 edit-icon-username"></i>
-                    <button class="btn btn-sm btn-form mt-0 btn-edit edit-username">Save</button>
-                    <button type="button" class="btn btn-sm btn-form mt-0 btn-edit edit-username">Cancel</button>
-                </form>
-            </p>
+            name
+            <hr>
+            <form action="/profile" method="POST">
+                <input type="text" name="username" class="username" value="<%=user.username%>" disabled>
+                <i class="fas fa-edit mr-2 edit-icon-username"></i>
+                <submit class="btn btn-sm btn-form mt-0 btn-edit edit-username">Save</submit>
+                <button type="button" class="btn btn-sm btn-form mt-0 btn-edit edit-username">Cancel</button>
+            </form>
             <p class="mt-5">
                 email
                 <hr>
-                <form action="/email" method="POST">
+                <form action="/profile" method="POST">
                     <input type="email" name="email" class="email" value="<%=user.email%>" disabled>
                     <i class="fas fa-edit edit-icon-email"></i>
-                    <button class="btn btn-sm btn-form mt-0 btn-edit edit-email">Save</button>
+                    <submit class="btn btn-sm btn-form mt-0 btn-edit edit-email">Save</submit>
                     <button type="button" class="btn btn-sm btn-form mt-0 btn-edit edit-email">Cancel</button>
                 </form>
             </p>
