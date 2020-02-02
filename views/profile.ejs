@@ -12,12 +12,18 @@
               <p>
                 Name
                 <hr>
-                <%=user.username%>
+                <input type="text" name="username" class="username" value="<%=user.username%>" disabled>
+                <i class="fas fa-edit mr-2 edit-icon-username"></i>
+                <button class="btn btn-sm btn-form mt-0 btn-edit edit-username">Save</button>
+                <button class="btn btn-sm btn-form mt-0 btn-edit edit-username">Cancel</button>
             </p>
             <p class="mt-5">
                 email
                 <hr>
-                <%=user.email%>
+                <input type="email" name="email" class="email" value="<%=user.email%>" disabled>
+                <i class="fas fa-edit edit-icon-email"></i>
+                <button class="btn btn-sm btn-form mt-0 btn-edit edit-email">Save</button>
+                <button class="btn btn-sm btn-form mt-0 btn-edit edit-email">Cancel</button>
             </p>
           </div>
         </div>
@@ -36,4 +42,5 @@
         </div>
     </div>
 </div>
+<script src="/js/profile.js"></script>
 <%- include("partials/footer") -%>
