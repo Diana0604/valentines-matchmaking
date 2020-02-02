@@ -1,19 +1,20 @@
 <%- include("partials/header") -%>
 <link rel="stylesheet" href="/css/test.css">
-<div class="container mt-5">
+<!--<div class="container mt-5">-->
     <form action="/test" method="POST">
         <% questions.forEach(function(question, index){ %>
-        <div class="question">
+        <div class="question container mt-5">
             <input type="hidden" name="questionID[<%=index%>]" value="<%=question._id%>">
             <h1><%= question.title %></h1>
             <h3><%= question.question %></h3>
+            <hr>
             <% switch(question.type){
                 case "text": { %>
             <input type="text" placeholder="" name="answers[<%=index%>][text]" required>
             <% break; }
                 case "multiplechoice":{ 
                     question.possibleAnswers.forEach(function(answer){ %>
-            <input type="radio" name="answers[<%=index%>][choice]" value="<%=answer%>" required> <%=answer%><br>
+            <input class="mb-3" type="radio" name="answers[<%=index%>][choice]" value="<%=answer%>" required> <%=answer%><br>
             <% }) %>
             <% break; }
                 default: {%>
@@ -24,5 +25,5 @@
         <% }) %>
         <input type="submit" value="Next" class="btn btn-form ml-5">
     </form>
-</div>
+<!--</div>-->
 <%- include("partials/footer") -%>
