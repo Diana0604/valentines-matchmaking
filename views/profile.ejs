@@ -10,20 +10,24 @@
           </div>
           <div class="col">
               <p>
-                Name
+                name
                 <hr>
-                <input type="text" name="username" class="username" value="<%=user.username%>" disabled>
-                <i class="fas fa-edit mr-2 edit-icon-username"></i>
-                <button class="btn btn-sm btn-form mt-0 btn-edit edit-username">Save</button>
-                <button class="btn btn-sm btn-form mt-0 btn-edit edit-username">Cancel</button>
+                <form action="/username" method="POST">
+                    <input type="text" name="username" class="username" value="<%=user.username%>" disabled>
+                    <i class="fas fa-edit mr-2 edit-icon-username"></i>
+                    <button class="btn btn-sm btn-form mt-0 btn-edit edit-username">Save</button>
+                    <button type="button" class="btn btn-sm btn-form mt-0 btn-edit edit-username">Cancel</button>
+                </form>
             </p>
             <p class="mt-5">
                 email
                 <hr>
-                <input type="email" name="email" class="email" value="<%=user.email%>" disabled>
-                <i class="fas fa-edit edit-icon-email"></i>
-                <button class="btn btn-sm btn-form mt-0 btn-edit edit-email">Save</button>
-                <button class="btn btn-sm btn-form mt-0 btn-edit edit-email">Cancel</button>
+                <form action="/email" method="POST">
+                    <input type="email" name="email" class="email" value="<%=user.email%>" disabled>
+                    <i class="fas fa-edit edit-icon-email"></i>
+                    <button class="btn btn-sm btn-form mt-0 btn-edit edit-email">Save</button>
+                    <button type="button" class="btn btn-sm btn-form mt-0 btn-edit edit-email">Cancel</button>
+                </form>
             </p>
           </div>
         </div>

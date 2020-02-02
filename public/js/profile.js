@@ -12,7 +12,7 @@ $(".edit-icon-username").click(function(){
 });
 
 $(".edit-username").click(function(){
-    $(".email").prop('disabled', true);
+    $(".username").prop('disabled', true);
     $(".btn-edit").hide();
     $(".edit-icon-email").show();
     $(".edit-icon-username").show();
