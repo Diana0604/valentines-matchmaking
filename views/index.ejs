@@ -1,4 +1,5 @@
 <%- include("partials/header") -%>
+<%-include("partials/testNavbar") -%>
 <link rel="stylesheet" href="/css/index.css">
 <div class="container text-center mt-15">
     <div class="content">
@@ -7,17 +8,17 @@
         <hr>
         <% if(!currentUser) { %>
             <a href="/login">
-                <button class="btn btn-default btn-lg btn-dark">Login</button>
+                <button class="btn btn-default btn-lg btn-secondary">Login</button>
             </a>
             <a href="/register">
-                <button class="btn btn-default btn-lg btn-dark">Sign Up</button>
+                <button class="btn btn-default btn-lg btn-secondary">Sign Up</button>
             </a>
         <% } else { %>
             <a href="/test">
-                <button class="btn btn-default btn-lg btn-dark">Take the test</button>
+                <button class="btn btn-default btn-lg btn-secondary">Take the test</button>
             </a>
             <a href="/logout">
-                <button class="btn btn-default btn-lg btn-dark">Log Out</button>
+                <button class="btn btn-default btn-lg btn-secondary">Log Out</button>
             </a>
         <% } %>
     </div>
