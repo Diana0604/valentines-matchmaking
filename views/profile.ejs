@@ -7,7 +7,7 @@
         <hr>
         <div class="row">
           <div class="col">
-            Profile
+            <span>Personal Information</span>
           </div>
           <div class="col">
             name
@@ -26,17 +26,14 @@
           </div>
         </div>
         <div class="w-100"></div>
+        <h5 class="mt-4">Test Results</h5>
         <hr>
-        <div class="row mt-5">
-            <div class="col">
-              Test
-            </div>
-            <div class="col">
-                <% if(user.answerList && user.answerList.length > 0){ %>
-                    Results will be released soon...
-                <% } else { %>
-                    <a href="/test"><button class="btn btn-form mt-0">Answer Test</button></a>
-                <% } %>
+        <div class="d-flex justify-content-center">
+          <% if(user.answerList && user.answerList.length > 0){ %>
+            <span id="results">Results will be released soon...</span>
+          <% } else { %>
+              <a href="/test"><button class="btn btn-form mt-0">Answer Test</button></a>
+          <% } %>
         </div>
     </div>
 </div>
