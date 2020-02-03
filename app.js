@@ -35,7 +35,7 @@ app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     next();
 });
-mongoose.connect("mongodb+srv://admin:admin@valentine-abe6i.mongodb.net/test?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://admin:admin@valentine-abe6i.mongodb.net/real?retryWrites=true&w=majority", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true
@@ -62,8 +62,8 @@ app.get("*", function(req, res){
     res.send('this page does not exists');
 });
 //PORT:
-//app.listen(3000, function(){
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(3000, function(){
+//app.listen(process.env.PORT, process.env.IP, function(){
     //seedDB();
     console.log('server started');
 });
