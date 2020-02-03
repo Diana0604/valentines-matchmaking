@@ -29,7 +29,11 @@ body {
 }
 .btn-form{
     margin-top: 10px;
-    background: #edc2d8ff;
+    background: rgb(228, 145, 188);
+}
+.btn-form-test{
+    margin-top: 10px;
+    background: #cdb6db;
 }
 
 .btn-blue{
