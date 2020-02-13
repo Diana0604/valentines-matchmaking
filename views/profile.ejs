@@ -30,11 +30,14 @@
         <hr>
         <div class="d-flex justify-content-center">
           <% if(user.answerList && user.answerList.length > 0){ %>
-            <span id="results">Results will be released soon...</span>
+            <!--<span id="results">Results will be released soon...</span>-->
+            <div id="results">Congratulations! You have been matched with <%=match%></div>
+          </div>
+            <div class="d-flex justify-content-center">Don't forget to find your match and wish them a happy valentines day!</div>
           <% } else { %>
               <a href="/test"><button class="btn btn-form mt-0">Answer Test</button></a>
+              </div>
           <% } %>
-        </div>
     </div>
 </div>
 <script src="/js/profile.js"></script>
