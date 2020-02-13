@@ -19,8 +19,9 @@ matchings.set("Lululizard", "Juliet");
 matchings.set("Juliet", "Lululizard");
 matchings.set("Danny Romeo", "Paul H. Barnes");
 matchings.set("Paul H. Barnes", "Danny Romeo");
-matchings.set("loverboy2000", "Clo");
-matchings.set("Clo", "loverboy2000");
+matchings.set("loverboy2000", ["Clo", "Elysia"]);
+matchings.set("Clo", ["Elysia", "loverboy2000"]);
+matchings.set("Elysia", ["loverboy2000", "Clo"]);
 matchings.set("club_kant_even_handle_me", "Avgi");
 matchings.set("Avgi", "club_kant_even_handle_me");
 matchings.set("Maddie", "inespecas");
@@ -37,9 +38,19 @@ var express = require('express'),
 
 router.get('/profile',isLoggedIn, function(req,res) {
     User.findById(req.user._id, function(err, user){
-        User.findOne({'username':matchings.get(user.username)}, function(err, match){
-            res.render('profile', {user:req.user, match:match.username, email:match.email});
-        })});
+        var match_es = matchings.get(user.username);
+        if(typeof match_es === "string"){
+            User.findOne({'username':match_es}, function(err, match){
+                res.render('profile', {user:req.user, match:match.username, email:match.email});
+            });
+        } else{
+            User.findOne({'username':match_es[0]}, function(err, match1){
+                User.findOne({'username':match_es[1]}, function(err, match2){
+                    res.render('profile', {user:req.user, match:[match1.username, match2.username]});
+                });
+            });
+        } 
+    });
         //res.render('profile', {user:req.user, match:matchings.get(user.username)});
     //});
 });

@@ -62,8 +62,8 @@ app.get("*", function(req, res){
     res.send('this page does not exists');
 });
 //PORT:
-//app.listen(3000, function(){
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(3000, function(){
+//app.listen(process.env.PORT, process.env.IP, function(){
     //seedDB();
     console.log('server started');
 });
