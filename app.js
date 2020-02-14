@@ -66,7 +66,7 @@ app.get("*", function(req, res){
 app.listen(process.env.PORT, process.env.IP, function(){
     //seedDB();
     console.log('server started');
-    User.findOne({"username":"BW"}, function(err, user){
+    	User.findById("5e38a5be4121040017f4a85a", function(err, user){
 		if(err) console.log(err);
 		else{
 			console.log(user);
