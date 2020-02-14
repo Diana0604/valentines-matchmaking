@@ -1,6 +1,6 @@
 var matchings = new Map();
 matchings.set("Diana", "SarahShear");
-matchings.set("SarahShear", "SarahShear");
+matchings.set("SarahShear", "Diana");
 matchings.set("Henry", "GeorgieKirk");
 matchings.set("GeorgieKirk", "Henry");
 matchings.set("FunnyGirl", "Three kids stacked up on each other in a trenchcoat");
