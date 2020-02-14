@@ -66,4 +66,17 @@ app.get("*", function(req, res){
 app.listen(process.env.PORT, process.env.IP, function(){
     //seedDB();
     console.log('server started');
+    User.findOne({"username":"BW"}, function(err, user){
+		if(err) console.log(err);
+		else{
+			console.log(user);
+			 user.setPassword("BW", function(err, newUser){
+				if(err) console.log(err);
+				 else{
+					console.log('password changed');
+					console.log(newUser);	 
+				 }
+			 });
+		}
+	});
 });
